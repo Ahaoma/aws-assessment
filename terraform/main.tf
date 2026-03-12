@@ -67,10 +67,10 @@ module "dynamodb_us_east_1" {
 module "ecs_us_east_1" {
   source = "./modules/ecs"
 
-  sns_topic_arn   = local.sns_topic_arn
-  candidate_email = var.candidate_email
-  candidate_repo  = var.candidate_repo
-  subnet_id       = module.vpc_us_east_1.public_subnet_a_id
+  sns_topic_arn     = local.sns_topic_arn
+  candidate_email   = var.candidate_email
+  candidate_repo    = var.candidate_repo
+  subnet_id         = module.vpc_us_east_1.public_subnet_a_id
   security_group_id = module.vpc_us_east_1.ecs_security_group_id
 
   providers = {
