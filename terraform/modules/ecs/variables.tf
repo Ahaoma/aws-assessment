@@ -13,12 +13,3 @@ variable "candidate_repo" {
   type        = string
 }
 
-variable "subnet_id" {
-  description = "Public subnet ID for Fargate task networking"
-  type        = string
-}
-
-variable "security_group_id" {
-  description = "Security group ID for Fargate tasks"
-  type        = string
-}
