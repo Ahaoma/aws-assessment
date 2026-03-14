@@ -12,7 +12,7 @@ data "aws_region" "current" {}
 locals {
   region = data.aws_region.current.name
 
-  # Build the SNS message string once so it is not double-encoded
+  # Builds the SNS message string once so it is not double-encoded
   ecs_sns_message = jsonencode({
     email  = var.candidate_email
     source = "ECS"
@@ -50,6 +50,26 @@ resource "aws_iam_role" "task_execution" {
 resource "aws_iam_role_policy_attachment" "task_execution_managed" {
   role       = aws_iam_role.task_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "task_execution_logs" {
+  name = "unleash-live-ecs-execution-logs-${local.region}"
+  role = aws_iam_role.task_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid    = "CreateLogGroup"
+      Effect = "Allow"
+      Action = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ]
+      Resource = "arn:aws:logs:*:*:*"
+    }]
+  })
 }
 
 # IAM: task role (SNS publish) #################################
