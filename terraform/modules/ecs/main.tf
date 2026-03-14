@@ -11,7 +11,16 @@ data "aws_region" "current" {}
 
 locals {
   region = data.aws_region.current.name
+
+  # Build the SNS message string once so it is not double-encoded
+  ecs_sns_message = jsonencode({
+    email  = var.candidate_email
+    source = "ECS"
+    region = local.region
+    repo   = var.candidate_repo
+  })
 }
+
 
 # Cluster ################################################
 
@@ -89,19 +98,16 @@ resource "aws_ecs_task_definition" "sns_publisher" {
     name  = "sns-publisher"
     image = "amazon/aws-cli:latest"
 
-    # Publishes the required ECS verification payload then exits
+    # aws sns publish exits 0 on success – container stops and task completes
+    
     command = [
       "sns", "publish",
       "--topic-arn", var.sns_topic_arn,
       "--region", "us-east-1",
-      "--message", jsonencode({
-        email  = var.candidate_email
-        source = "ECS"
-        region = local.region
-        repo   = var.candidate_repo
-      })
+      "--message", local.ecs_sns_message
     ]
-
+    
+    
     logConfiguration = {
       logDriver = "awslogs"
       options = {
