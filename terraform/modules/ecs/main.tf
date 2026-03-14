@@ -99,15 +99,15 @@ resource "aws_ecs_task_definition" "sns_publisher" {
     image = "amazon/aws-cli:latest"
 
     # aws sns publish exits 0 on success – container stops and task completes
-    
+
     command = [
       "sns", "publish",
       "--topic-arn", var.sns_topic_arn,
       "--region", "us-east-1",
       "--message", local.ecs_sns_message
     ]
-    
-    
+
+
     logConfiguration = {
       logDriver = "awslogs"
       options = {
