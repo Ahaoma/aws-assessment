@@ -12,7 +12,7 @@ terraform {
   }
 }
 
-# ── Provider aliases ──────────────────────────────────────────────────────────
+#  Provider aliases ###################################################
 
 provider "aws" {
   alias  = "us_east_1"
@@ -26,13 +26,13 @@ provider "aws" {
 
 provider "archive" {}
 
-# ── Shared locals ─────────────────────────────────────────────────────────────
+# Shared locals #####################################################
 
 locals {
   sns_topic_arn = "arn:aws:sns:us-east-1:637226132752:Candidate-Verification-Topic"
 }
 
-# ── Cognito (us-east-1 only) ──────────────────────────────────────────────────
+# Cognito (us-east-1 only) ###############################################
 
 module "cognito" {
   source = "./modules/cognito"

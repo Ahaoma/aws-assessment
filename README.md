@@ -87,16 +87,10 @@ cd aws-assessment
 
 > No Lambda dependency installation is required. Both Lambdas use only `boto3`, which is built into the AWS Lambda Python 3.12 runtime.
 
-### 2 – Set Terraform variables
 
-```bash
-cp terraform/terraform.tfvars.example terraform/terraform.tfvars
-# Edit terraform.tfvars:
-#   candidate_email = "your@email.com"
-#   candidate_repo  = "https://github.com/<youruser>/aws-assessment"
 ```
 
-### 3 – Configure AWS credentials
+### 2 – Configure AWS credentials
 
 ```bash
 export AWS_ACCESS_KEY_ID=<your-key>
@@ -105,7 +99,7 @@ export AWS_DEFAULT_REGION=us-east-1
 # or: aws configure --profile unleash-live
 ```
 
-### 4 – Deploy
+### 3 – Deploy
 
 ```bash
 cd terraform

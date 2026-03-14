@@ -13,7 +13,7 @@ locals {
   region = data.aws_region.current.name
 }
 
-# ── Cluster ───────────────────────────────────────────────────────────────────
+# Cluster ################################################
 
 resource "aws_ecs_cluster" "this" {
   name = "unleash-live-cluster-${local.region}"
@@ -21,7 +21,7 @@ resource "aws_ecs_cluster" "this" {
   tags = { Project = "unleash-live-assessment" }
 }
 
-# ── IAM: execution role (ECR pull + CloudWatch logs) ─────────────────────────
+#IAM: execution role (ECR pull + CloudWatch logs) #######################################
 
 resource "aws_iam_role" "task_execution" {
   name = "unleash-live-ecs-execution-${local.region}"
@@ -43,7 +43,7 @@ resource "aws_iam_role_policy_attachment" "task_execution_managed" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# ── IAM: task role (SNS publish) ──────────────────────────────────────────────
+# IAM: task role (SNS publish) #################################
 
 resource "aws_iam_role" "task" {
   name = "unleash-live-ecs-task-${local.region}"
@@ -74,7 +74,7 @@ resource "aws_iam_role_policy" "task_sns_publish" {
   })
 }
 
-# ── Task definition ───────────────────────────────────────────────────────────
+# ── Task definition #################################################
 
 resource "aws_ecs_task_definition" "sns_publisher" {
   family                   = "unleash-live-sns-publisher-${local.region}"
