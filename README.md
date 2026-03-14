@@ -1,6 +1,6 @@
 # Unleash live – AWS DevOps Engineer Assessment
 
-EEnd-to-end IaC solution for the Unleash live technical assessment.  
+End-to-end IaC solution for the Unleash live technical assessment.  
 This project provisions a multi-region AWS compute stack secured by a centralised Amazon Cognito User Pool, with automated testing and a full CI/CD pipeline.
 ---
 
